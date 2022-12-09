@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Label Distribution Learning</title>
-<meta name="keywords" content="label-distribution-learning, machine-learning, label-space" />
+<meta name="keywords" content="label-distribution-learning, machine-learning, label-space, emotion-recognition, speaker-age-estimation" />
 <meta name="description" content="Label Distribution Learning (LDL) strategies are machine learning techniques that operate on the assumption of a label distribution that may are or may-not be immediately accessible. We established the three high level LDL strategies and detailed a few modern works in LDL in the process. Collectively, these approaches are very effective when there is some level of uncertainty in the label space or when the label distribution is explicitly known.">
 <meta name="author" content="Dean Ninalga">
 <link rel="canonical" href="https://ninalgad.github.io/posts/2022-10-17-ldl/" />
@@ -104,7 +104,7 @@ if (!doNotTrack) {
   "name": "Label Distribution Learning",
   "description": "Label Distribution Learning (LDL) strategies are machine learning techniques that operate on the assumption of a label distribution that may are or may-not be immediately accessible. Usually, LDL focusses distribution is defined over a fixed set of predefined classes identical to the well-known single-label-learning and the multi-label-learning settings. Here we established the three high level LDL strategies and detailed a few modern works in LDL in the process. Collectively, these approaches are very effective when there is some level of uncertainty in the label space or when the label distribution is explicitly known.",
   "keywords": [
-    "label distribution learning", "machine learning", "label space"
+    "label distribution learning", "machine learning", "label space", "emotion recognition", "speaker age estimation"
   ],
   "articleBody": "",
   "wordCount" : "1000",
@@ -233,7 +233,7 @@ if (!doNotTrack) {
     <h1 class="post-title">
       Label Distribution Learning
     </h1>
-    <div class="post-meta"><span title='2022-10-17 15:10:30 -0700 PDT'>August 29, 2022</span>&nbsp;·&nbsp;15 min read&nbsp;·&nbsp;Dean Ninalga
+    <div class="post-meta"><span title='2022-10-17 15:10:30 -0700 PDT'>November 17, 2022</span>&nbsp;·&nbsp;15 min read&nbsp;·&nbsp;Dean Ninalga
 
 </div>
   </header> <div class="toc">
@@ -251,6 +251,7 @@ if (!doNotTrack) {
                 <li><a href="#lcg" aria-label="lcg">Label Correlation Grid</a></li>
 
                 <li><a href="#sa" aria-label="sa">Specialized Algorithms</a></li>
+                <li><a href="#od" aria-label="od">Ordinal Data</a></li>
                 <li><a href="#eff" aria-label="eff">EfficientFace</a></li>
             
                 <!-- <li><a href="#idr" aria-label="idr">Implicit Distribution Representation</a></li> -->
@@ -267,9 +268,13 @@ if (!doNotTrack) {
 <h1 id="intro">Introduction<a hidden class="anchor" aria-hidden="true" href="#goal-def">#</a></h1>
 
 <p>
-"Label Distribution Learning" (LDL), introduced by Geng (2013), is a learning technique that presumes that the label is a distribution over a label space. For example, suppose we have a dataset of facial images where the labels describe a single emotion that the subject of the photo is displaying. In an LDL setting, the annotation for each image should describe a distribution over the given emotions since humans usually never experience a single emotion at any given time. However, it's impossible to fully enumerate the full spectrum of emotions behind a facial expression, even by the person experiencing it. Researchers tend to simplify this distribution into a single emotion given an image to form datasets. The fact that the labels in many datasets are simplifications of a complex distribution (i.e. a sampling of a true distribution) is part of what necessitates the study of LDL. Often LDL techniques can operate where the underlying distribution of the labels is partially or completely unknown beforehand.
-      </p>
+"Label Distribution Learning" (LDL), introduced by Geng (2013), is a learning technique that presumes that the label is a distribution over a label space. For example, suppose we have a dataset of facial images where the labels describe a single emotion that the subject of the photo is displaying. In an LDL setting, the annotation for each image should describe a distribution over the given emotions since humans usually never experience a single emotion at any given time. However, it's impossible to fully enumerate the full spectrum of emotions behind a facial expression, even by the person experiencing it. Researchers tend to simplify this distribution into a single emotion given an image to form datasets. The fact that the labels in many datasets are simplifications of a complex distribution (i.e. a sampling of a true distribution) is part of what necessitates the study of LDL. Often LDL techniques can operate where the underlying distribution of the labels is partially or completely unknown beforehand.</p>
+      
+<div>
+<img src="mls.jpg" alt="lcg"style="width: 60%;" class="center" /><figcaption>Mona Lisa expressing different facial expressions, see: <a href="https://www.sciencedirect.com/science/article/pii/S0042698904000562?via%3Dihub"><b>What makes Mona Lisa smile?</b></a></figcaption>
+</div>
 <p>    
+    
 Geng (2013) describes LDL as training models on the underlying distribution of the labels rather than just the given labels. Namely, given $S= \{(x_{i},D_{i})|i=1,2,..,n\}$ where $D_{i}=(d^{(i)}_{1}, d^{(i)}_{2},..,d^{(i)}_{c})$, $d^{(i)}_{j}\in [0, 1]$, and $\sum_{j}d^{(i)}_{j}=1$. Then, LDL tries to learn a conditional probability mass function $p(y|x)$ from $S$, for $x$ in a vector input space $X$ and $y\in \{y_1, y_2, ..., y_c\}$ a set of $c$ labels. Assume that $p(x|y)$ (as is often the case in the supervised learning setting) is a parametric model: $p(y|x,\theta)$. Thus the goal of LDL is finding the $\theta$ such that $D_{i}\approx p(y|x,\theta)$. Where the loss function to optimize $\theta$ is the Kullback-Leibler divergence. What I described is a well-known setup for the single-label-learning setting as well as the multi-label-learning setting thus, the maximum likelihood estimate for $\theta$ is well-studied:
     $$\theta^{\text{MLE}}=\text{argmax}_{\theta}\sum_{i}\ln p(y(x_i)|x_{i},\theta)$$
       </p>
@@ -301,7 +306,20 @@ Namely, given a label vector, we compute the a covariance matrix: $y_{m}\in\math
     
 <h1 id="sa">Specialized Algorithms<a hidden class="anchor" aria-hidden="true" href="#sa">#</a></h1>
 <p>These strategies directly optimise the Kullback-Leibler divergence between the the label distribution and the model output. These strategies are tipically used when the label distribution is partially or fully known.</p>
-    
+
+
+<h2 id="od">Ordinal Data<a hidden class="anchor" aria-hidden="true" href="#od">#</a></h2>
+    <p>
+        <a href="https://arxiv.org/pdf/2202.11424.pdf">Si et. al. (2022)</a>, provide a specialized technique to apply LDL to <em>Speaker Age Estimation</em> where the labels integers and have a natural ordering.
+        
+They convert the ordinal integer labels (i.e. speaker age)into the LDL setting by creating a probability vector across ages where the center of mass is the label age. Namely, for a given age $k\in [1,K]$ where $K$ is the highest age, we create a vector $y^k$ of all zeros but is 1 for the $k^{th}$ position. Then, 
+    $$k=\sum^{K}_{i=1}i\cdot y_{i}^{k}.$$
+Then the probability mass in $y^k$ is redistributed using the p.d.f. of a gaussian distribution with mean $k$:
+    $$y_{i}^{k}=C^{-1}\exp{\{-(k-i)^{2}/2\sigma^{2}\}}$$
+        
+where $\sigma$ is a set standard deviation and $C$ is a normalising constant such that $\sum_{i=1}^{K}y_{i}^{k}=1$. The model is then trained to match the given label distribution $y^k$.
+    </p>
+
 <h2 id="eff">EfficientFace<a hidden class="anchor" aria-hidden="true" href="#eff">#</a></h2>
 
 <p>
@@ -322,7 +340,7 @@ They use Implicit Neural Representations to model the label distribution. Here I
 
 <h1 id="dis">When to use LDL Strategies<a hidden class="anchor" aria-hidden="true" href="#dis">#</a></h1>
     <p>
-        <b>When there is some uncertainty and noise in the labeling (or label space).</b> Consider the difficulty in labeling the emotion that a subject is experiencing in a photo. Emotions can overlap, be faked, and often are portrayed sarcastically. Hence, annotating images for human emotion is a uniquely challenging task. LDL strategies can learn from the underlying distribution of emotions and <a href="https://ojs.aaai.org/index.php/AAAI/article/view/16465">Zhao et. al. (2021)</a> provide empirical evidence for LDL superior performance. <a href="https://arxiv.org/pdf/2210.08184.pdf">Guo et. al. (2022)</a> show that their LDL strategy is robust to a high degree of random noise injected into the labels. 
+        <b>When there is some uncertainty and noise in the labeling.</b> Consider the difficulty in labeling the emotion that a subject is experiencing in a photo. Emotions can overlap, be faked, and often are portrayed sarcastically. Hence, annotating images for human emotion is a uniquely challenging task. LDL strategies can learn from the underlying distribution of emotions and <a href="https://ojs.aaai.org/index.php/AAAI/article/view/16465">Zhao et. al. (2021)</a> provide empirical evidence for LDL superior performance. <a href="https://arxiv.org/pdf/2210.08184.pdf">Guo et. al. (2022)</a> show that their LDL strategy is robust to a high degree of random noise injected into the labels. 
     </p>
    
 <h1 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h1>
@@ -337,6 +355,8 @@ Label Distribution Learning (LDL) strategies are machine learning techniques tha
 
 <p><a href="https://arxiv.org/pdf/2210.08184.pdf">Guo, Q., Zheng, Z., Jia, X., & Xu, L. (2022). Label distribution learning via label correlation grid. ArXiv, abs/2210.08184.</a></p>
 
+<p><a href="https://arxiv.org/pdf/2202.11424.pdf">Si, S., Wang, J., Peng, J., & Xiao, J. (2022). Towards Speaker Age Estimation With Label Distribution Learning. ICASSP 2022 - 2022 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), 4618-4622.</a></p>
+    
 <p><a href="https://arxiv.org/pdf/2209.13824.pdf">Zheng, Zhuoran and Xiuyi Jia. “Label Distribution Learning via Implicit Distribution Representation.” ArXiv abs/2209.13824 (2022): n. pag.</a></p>
       
 <p><a href="https://ojs.aaai.org/index.php/AAAI/article/view/16465">Zhao, Z., Liu, Q., & Zhou, F. (2021). Robust Lightweight Facial Expression Recognition Network with Label Distribution Training. AAAI Conference on Artificial Intelligence.</a></p>
