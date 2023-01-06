@@ -254,7 +254,11 @@ if (!doNotTrack) {
                 <li>
                     <a href="#fe" aria-label="fe">Feature Engineering</a></li>
                 <li>
-                    <a href="#modeling" aria-label="modeling">Modling with Lgbm</a></li>
+                    <a href="#modeling" aria-label="modeling">Modeling</a></li>
+                <li>
+                    <a href="#inference" aria-label="inference">Inference</a></li>
+                <li>
+                    <a href="#conclusion" aria-label="modeling">Conclusion</a></li>
                 <li>
                     <a href="#references" aria-label="References">References</a>
                 </li>
@@ -272,7 +276,7 @@ if (!doNotTrack) {
 
 <h1 id="data">The Data<a hidden class="anchor" aria-hidden="true" href="#data">#</a></h1>
 <div>
-    <img src="cpu-gpu.png" alt="lcg"style="width: 80%;" class="center" /> <figcaption><em>Figure 1</em>. Single cpus and/or gpu runtimes are the most popular.</figcaption>
+    <img src="cpu-gpu.png" alt="lcg"style="width: 80%;" class="center" /> <figcaption>Single cpus and/or gpu runtimes are the most popular.</figcaption>
 </div> 
       <p>Datacenter monitoring systems offer a variety of data streams and events. The <em><a href="https://dcc.mit.edu/">MIT Datacenter Challenge</a> [1] datasets </em> are a combination of high-level data (e.g. Slurm Workload Manager scheduler data) and low-level job-specific time series data. The high-level data includes parameters such as:
 <ol>
@@ -289,7 +293,7 @@ The low-level time series data is collected on the order of seconds for each job
 <h2>The Target</h2>
       <p>The goal of this analysis is to understand the main factors that influence the duration of a run-time. Here perform the log transformation: $\log(1+x)$ since it results in a more normalized distribution which is better for statistical analysis.</p>
 <div>
-    <img src="tar.png" alt="lcg"style="width: 80%;" class="center" /> <figcaption><em>Figure 2</em>. Distribution of the log transformed run time duration</figcaption>
+    <img src="tar.png" alt="lcg"style="width: 80%;" class="center" /> <figcaption>Distribution of the log transformed run time duration</figcaption>
 </div> 
 
     <p>Next we will try to understand how the target variable changes with respect to certain groups in the data.</p>
@@ -337,7 +341,7 @@ For continuous variables, we can create a binary indicator based on a certain th
 
 <h2>Results</h2>
     <img src="results.png" alt="lcg"style="width: 40%;" align="center"/> <figcaption>Comparison of the average model performance on 10-fold cross-validation using the roott mean suared error.</figcaption>
-<h1>Inference</h1>
+<h1 id="inference">Inference<a hidden class="anchor" aria-hidden="true" href="#inference">#</a></h1>
 <div>
     <img src="fe.png" alt="feature importenaces"style="width: 120%;" class="center" /> <figcaption><em>Figure 1</em>. Plot of ordered feature importnaces.</figcaption>
 </div> 
@@ -366,10 +370,12 @@ For continuous variables, we can create a binary indicator based on a certain th
     <img src="pair.png" alt="pair plot"style="width: 100%;" class="center" /><figcaption>Pair plot of the significant features including the run-time duration.</figcaption>
 </div> 
 
-<h1>Conclusion</h1>
+<h1 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h1>
 <p>These important factors we found in the previous section suggest that optimizing the use of certain resources in a data center can be a significant factor in reducing run-time duration. For instance, ensuring that the ratio of GPUs to CPUs is appropriate for the job and that sufficient memory capacity is available may help to reduce the run-time duration. Additionally, minimizing the time spent waiting for resources to become available may be beneficial. Here we demonstrated that AI models adequately predict the duration of jobs submitted to HPC clusters. AI are able to suggest an appropriate amount of time for a given user-submitted job that best reduces waiting times for other users and improves overall resource allocation.</p>
 
 <p>It is worth noting that these findings are specific to the particular dataset and model used in your analysis, and it may be useful to consider other factors that could potentially influence run-time duration in different contexts.</p>
+      
+<p>Indeed, this analysis has provided insight into the factors that influence run-time duration in a datacenter and suggests AI as a tool for optimizing the use of resources to reduce run-time duration in HPC clusters.</p>
       
 <h1 id="references">References<a hidden class="anchor" aria-hidden="true" href="#references">#</a></h1>
 <p>[1] <a href="https://arxiv.org/ftp/arxiv/papers/2108/2108.02037.pdf">Samsi, S., Weiss, M.L., Bestor, D., Li, B., Jones, M., Reuther, A., Edelman, D., Arcand, W., Byun, C., Holodnack, J., Hubbell, M., Kepner, J., Klein, A., McDonald, J., Michaleas, A., Michaleas, P., Milechin, L., Mullen, J.S., Yee, C., Price, B., Prout, A., Rosa, A., Vanterpool, A., McEvoy, L., Cheng, A., Tiwari, D., & Gadepally, V.N. (2021). The MIT Supercloud Dataset. 2021 IEEE High Performance Extreme Computing Conference (HPEC), 1-8.</a></p>
