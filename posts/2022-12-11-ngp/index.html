@@ -5,11 +5,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Improving Datacenters Energy Efficiency | Green Learning</title>
-<meta name="keywords" content="language-model, vision-language-model, vision-model" />
-<meta name="description" content="Understanding meta-data documenting virtual runtimes used for ML tasks. Finding the biggest contributos energy consumption and reducing wasted resource time using ML models.">
+    
+<title>Neural Gaussian Process</title>
+<meta name="keywords" content="[TODO], [TODO], [TODO]" />
+<meta name="description" content="[TODO]">
+
 <meta name="author" content="Dean Ninalga">
-<link rel="canonical" href="https://ninalgad.github.io/posts/2022-07-29-mitc/" />
+<link rel="canonical" href="https://ninalgad.github.io/posts/2022-12-11-ngp/" />
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.949307ebc5cfbfc5e27c5ec3d332ce0be9137ec4137e02aefc52cf0267172e22.css" integrity="sha256-lJMH68XPv8XifF7D0zLOC&#43;kTfsQTfgKu/FLPAmcXLiI=" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
     onload="hljs.initHighlightingOnLoad();"></script>
@@ -68,12 +70,12 @@ if (!doNotTrack) {
 	
 	ga('send', 'pageview');
 }
-</script><meta property="og:title" content="Improving Datacenters Energy Efficiency" />
-<meta property="og:description" content="Understanding meta-data documenting virtual runtimes used for ML tasks. Finding the biggest contributos energy consumption and reducing wasted resource time using ML models." />
+</script><meta property="og:title" content="Neural Gaussian Process" />
+<meta property="og:description" content="[TODO]" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://ninalgad.github.io/posts/2022-07-29-mitc/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-07-29T15:10:30-07:00" />
-<meta property="article:modified_time" content="2022-07-29T15:10:30-07:00" />
+<meta property="og:url" content="https://ninalgad.github.io/posts/2022-12-11-ngp/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-11T15:10:30-07:00" />
+<meta property="article:modified_time" content="2022-12-11T15:10:30-07:00" />
 
 
 <script type="application/ld+json">
@@ -90,8 +92,8 @@ if (!doNotTrack) {
     {
       "@type": "ListItem",
       "position":  2 ,
-      "name": "Improving Datacenters Energy Efficiency",
-      "item": "https://ninalgad.github.io/posts/2022-07-29-mitc/"
+      "name": "Neural Gaussian Process",
+      "item": "https://ninalgad.github.io/posts/2022-12-11-ngp/"
     }
   ]
 }
@@ -100,24 +102,24 @@ if (!doNotTrack) {
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Improving Datacenters Energy Efficiency",
-  "name": "Improving Datacenters Energy Efficiency",
-  "description": "Understanding meta-data documenting virtual runtimes used for ML tasks. Finding the biggest contributos energy consumption and reducing wasted resource time using ML models.",
+  "headline": "Neural Gaussian Process",
+  "name": "Neural Gaussian Process",
+  "description": "[TODO]",
   "keywords": [
-    "datacenter", "data-analytics", "lgbm"
+    "TODO", "TODO"
   ],
   "articleBody": "",
   "wordCount" : "1000",
   "inLanguage": "en",
-  "datePublished": "2022-07-29T15:10:30-07:00",
-  "dateModified": "2022-07-29T15:10:30-07:00",
+  "datePublished": "2022-12-11T15:10:30-07:00",
+  "dateModified": "2022-12-11T15:10:30-07:00",
   "author":{
     "@type": "Person",
     "name": "Dean Ninalga"
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://ninalgad.github.io/posts/2022-07-29-mitc/"
+    "@id": "https://ninalgad.github.io/posts/2022-12-11-ngp/"
   },
   "publisher": {
     "@type": "Organization",
@@ -231,9 +233,9 @@ if (!doNotTrack) {
   <header class="post-header">
     
     <h1 class="post-title">
-      Improving Datacenters Energy Efficiency
+      Neural Gaussian Process
     </h1>
-    <div class="post-meta"><span title='2022-07-29 15:10:30 -0700 PDT'>June 29, 2022</span>&nbsp;·&nbsp;29 min read&nbsp;·&nbsp;Dean Ninalga
+    <div class="post-meta"><span title='2022-12-11 15:10:30 -0700 PDT'>November 17, 2022</span>&nbsp;·&nbsp;15 min read&nbsp;·&nbsp;Dean Ninalga
 
 </div>
   </header> <div class="toc">
@@ -242,22 +244,22 @@ if (!doNotTrack) {
             <span class="details">Table of Contents</span>
         </summary>
 
-        <div class="inner"><ul>
-                <li>
-                    <a href="#goal-def" aria-label="question-n-goal-definition">The Challenge
-</a></li>
-                <li>
-                    <a href="#data" aria-label="question-n-goal-definition">The Data
-</a></li>
-                <li>
-                    <a href="#cleaning" aria-label="cleaning">Data Cleaning</a></li>
-                <li>
-                    <a href="#fe" aria-label="fe">Feature Engineering</a></li>
-                <li>
-                    <a href="#modeling" aria-label="modeling">Modling with Lgbm</a></li>
-                <li>
-                    <a href="#references" aria-label="References">References</a>
-                </li>
+        <div class="inner"><ul> 
+                <li><a href="#intro" aria-label="intro">Introduction</a></li>
+            
+                <li><a href="#pt" aria-label="pt">Problem Transformation</a></li>
+            
+                <li><a href="#aa" aria-label="aa">Algorithm Adaptation</a></li>
+                <li><a href="#lcg" aria-label="lcg">Label Correlation Grid</a></li>
+
+                <li><a href="#sa" aria-label="sa">Specialized Algorithms</a></li>
+                <li><a href="#od" aria-label="od">Ordinal Data</a></li>
+                <li><a href="#eff" aria-label="eff">EfficientFace</a></li>
+            
+                <!-- <li><a href="#idr" aria-label="idr">Implicit Distribution Representation</a></li> -->
+                <li><a href="#dis" aria-label="dis">When to use LDL Strategies</a></li>
+                <li><a href="#conclusion" aria-label="conlusion">Conclusion</a></li>
+                <li><a href="#references" aria-label="References">References</a></li>
             </ul>
         </div>
     </details>
@@ -265,120 +267,28 @@ if (!doNotTrack) {
 
   <div class="post-content">
 
-<h1 id="goal-def">The Challenge<a hidden class="anchor" aria-hidden="true" href="#goal-def">#</a></h1>
-<p>Data centers provide high-powered computing resources often used for processing a large data flow  (e.g. weather simulation) or training machine learning models with the fastest technology. Data centers often require users to predefine time limits for their submitted jobs. As a result, users intentionally set time limits longer than necessary to keep their more time-consuming jobs from being canceled. However, excessive time limits result in resources waiting idly even long after the job has completed its primary goal.</p>
+<h1 id="intro">Introduction<a hidden class="anchor" aria-hidden="true" href="#goal-def">#</a></h1>
 
-      <p>Hence, this project's goal is to understand the duration of a given job using parameters the data center can know beforehand. In addition, we will demonstrate that AI models can adequately model user behavior and predict user runtimes. This work provides data analysis of high-performance computing (HPC) cluster data and suggests AI as a way to improve resource allocation. The project will involve data cleaning, feature engineering, and developing a model for job runtimes in a cloud-computing scenario.</p>
-
-<h1 id="data">The Data<a hidden class="anchor" aria-hidden="true" href="#data">#</a></h1>
-<div>
-    <img src="cpu-gpu.png" alt="lcg"style="width: 80%;" class="center" /> <figcaption><em>Figure 1</em>. Single cpus and/or gpu runtimes are the most popular.</figcaption>
-</div> 
-      <p>Datacenter monitoring systems offer a variety of data streams and events. The <em><a href="https://dcc.mit.edu/">MIT Datacenter Challenge</a> [1] datasets </em> are a combination of high-level data (e.g. Slurm Workload Manager scheduler data) and low-level job-specific time series data. The high-level data includes parameters such as:
-<ol>
-<li>number of CPU/GPU/memory requested</li>
-<li>time waiting for resources to become available</li>
-<li>energy consumption statistics</li>
-<li>exit codes (relating to the reason a runtime closes)</li>
-<li>run-time duration</li>
-</ol>
+   
+<h1 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h1>
 <p>
-The low-level time series data is collected on the order of seconds for each job. Ideally, leveraging this data may facilitate the development of AI/ML algorithms which not only predict/detect failures, but also allow for the accurate determination of their cause. <em>Here I will only include the high-level data.</em>
-      </p>
-
-<h2>The Target</h2>
-      <p>The goal of this analysis is to understand the main factors that influence the duration of a run-time. Here perform the log transformation: $\log(1+x)$ since it results in a more normalized distribution which is better for statistical analysis.</p>
-<div>
-    <img src="tar.png" alt="lcg"style="width: 80%;" class="center" /> <figcaption><em>Figure 2</em>. Distribution of the log transformed run time duration</figcaption>
-</div> 
-
-    <p>Next we will try to understand how the target variable changes with respect to certain groups in the data.</p>
-<div>
-    <img src="gpu-d.png" alt="gpu counts vs target"style="width: 80%;" class="center" /> <figcaption>Distribution of the log transformed run time duration with as a function of number of gpus requessted.</figcaption>
-</div> 
-
-      
-<h1 id="cleaning">Data Cleaning<a hidden class="anchor" aria-hidden="true" href="#cleaning">#</a></h1>
-      <p>We will only provide a few highlights here. For more details see the <a href="https://www.kaggle.com/code/skylarkphantom/can-ai-models-predict-job-run-times">kaggle notbook</a> for in-depth analysis and code to reproduce the figures.</p>
-<p>Again, we are only working with information that is knowable beforehand. Thus, we cannot include information like energy consumption statistics and exit codes. We remove the constant valued columns and information in an obscure or proprietary format. For example, variables that encode error types that terminate a runtime (e.g. time-out errors that end a runtime if they run past their defined time limit) are unclear to me. Without better domain knowledge, I will drop these columns even though they are likely related to the lengthiness of a runtime.</p>
-    
-<p>Moreover, we remove rows with an invalid time markers as we need them to determine the run time duration and other time related variables.</p>
-
-<h1 id="fe">Feature Engineering<a hidden class="anchor" aria-hidden="true" href="#fe">#</a></h1>
-<p>As part of the feature engineering process, we often need to modify our data in order to make it more suitable for out machine learning models. Here are a few steps we can take to prepare our data:
-
-<ol>
-<li><em>One-hot encoding:</em> If we have categorical variables in our dataset, we may need to convert them into numerical form in order to use them with certain machine learning algorithms. One-hot encoding involves creating a new binary variable forz each level of the categorical variable. </li>
-<li><em>Normalization:</em> Continuous variables can often have very different scales, which can make them difficult to work with in machine learning algorithms. To address this, we can normalize the variables by scaling them to have a standard deviation of 1 and a mean of 0. This helps to ensure that all continuous variables are comparable.</li>
-</ol>
-
-<p>By following these steps, we can prepare our data for machine learning and get the most out of our analysis. We highlight the more intersting feature engineering steps below.
+Label Distribution Learning (LDL) strategies are machine learning techniques that operate on the assumption of a label distribution that may are or may-not be immediately accessible. Usually, LDL focusses distribution is defined over a fixed set of predefined classes identical to the well-known single-label-learning and the multi-label-learning settings. Here we established the three high level LDL strategies and detailed a few modern works in LDL in the process. Collectively, these approaches are very effective when there is some level of uncertainty in the label space or when the label distribution is explicitly known.
     </p>
-<h2>Binarize Variables</h2>
-<p>To binarize a variable means to convert it into a binary format with values of 0 and 1. This can be useful in several cases. If a variable is categorical and most of its values belong to only one category, binarizing it can help simplify the data. For example, if most jobs belong to a single category, it may be helpful to convert that category into a binary variable of 1 and all other categories into a binary variable of 0. </p>
-<p>
-For continuous variables, we can create a binary indicator based on a certain threshold. For instance, we may want to identify a group of jobs that require a large amount of memory and time. By setting a threshold for "large" and creating a binary variable that is 1 if the job meets that threshold, we can more easily analyze these high-resource jobs. We can do this for both the memory and time variables, resulting in two new binary variables. This can help us understand whether these high-resource jobs are coming from privileged users or whether the values are capped by the system later on.
-</p>
 
-<h1 id="modeling">Modeling<a hidden class="anchor" aria-hidden="true" href="#modeling">#</a></h1>
     
-<p>In this section, our goal is to identify the variables that are the best predictors of the (log) duration of runtimes. To do this, we will use three different modeling techniques: K-nearest neighbors (KNN), support vector machines (SVM), and light gradient boosting machine (LGBM). We evaluate the models using a <em>root mean squared error</em> on 10-fold cross-validation. The model we will use are:</p>
-
-<ul>
-<li><b>K-Nearest Neighbors (KNN):</b>
- is a non-parametric supervised learning algorithm that can be used for regression. It works by finding the K nearest labeled data points to a given point and using the mean value of the labels of those points to predict the value of the given point. Where 'nearest' data points  or <em>neighbors</em> are determined by the  euclidean_distance: $||x-y||_{2}=\sqrt{\sum_{i}^{n}(x_{i}-y_{i})}$
-    </li>
-    
-<li><b>Support Vector Machines (SVM): </b>work by finding the hyperplane in a high-dimensional space that maximally separates the different values. This is simple to conceptualise for classification. However, for regression, we construct a hyperplane that best fits the data in a way that minimizes the error between the predicted values and the true values. Namely, the hyperplane is a linear transformation of the data $x\mapsto w^Tx-b$ where parameters $w$ and $b$ are optimised to minimise the value of $|y-(w^Tx+b)|$.
-    </li>
-<li><b>Light Gradient Boosting Machine (LGBM):</b> works by sequentially training a set of weak models and combining them to form a strong ensemble model. At each step, the algorithm aims to correct the errors made by the previous model by fitting a new model to the residual errors (Ke et. al., 2017). Usually the 'weak models' are decision trees. These models give a <em>feature importance</em> value that we will use in this analysis.</li>
-    
-</ul>
-
-<h2>Results</h2>
-    <img src="results.png" alt="lcg"style="width: 40%;" align="center"/> <figcaption>Comparison of the average model performance on 10-fold cross-validation using the roott mean suared error.</figcaption>
-<h1>Inference</h1>
-<div>
-    <img src="fe.png" alt="feature importenaces"style="width: 120%;" class="center" /> <figcaption><em>Figure 1</em>. Plot of ordered feature importnaces.</figcaption>
-</div> 
-    <p>As mentioned before, LGBM provides a way to rank features relative to their usefulness in predicting the target variable. We will briefly go over two ways LGBM computes these importances and give an interpretation of these values resulting from our modeling. We compute the importance values with the following:</p>
-    
-    <ul>
-        <li><b>Gain-based: </b> values are based in the numerical improvement (or 'gain') in model performance that results from using that feature</li>
-        
-        <li><b>Frequency-based: </b> counts the number of times each feature is used in the model. Where features that are used more frequently are considered more important</li>
-    </ul>
-    <p>From the figure at the beginning of this section we can observe a few stand-out features:</p>
-    <ul>
-        <li><code>large_time_req</code>: the user requested a large amount of time beforehand</li>
-        <li><code>gpu_per_cpu_count</code>: the ratio of the number of gpus over the number of cpus requested</li>
-        <li><code>large_mem_req</code>: the user requested a runtime with a high memory (RAM) capacity 
-        <li><code>log_wait_time</code>: log of the time the user is waiting for resources to become available</li>
-    </ul>
-
-    <p>If we look at <code>log_wait_time</code> in particular we find that there is a medium linear relationship ($R\sim 0.4737$) if we look at run times that have to wait for longer than a minute before their requested resources become available. Uers who wait longer than 1 hour this linear relationship becomes very strong ($R\sim 0.614927$).</p>
-<div>
-    <img src="dwait-y.png" alt="minue wait vs target"style="width: 100%;" class="center" /><figcaption>Scatter plot of log runtime duration vs. wait times longer than a minue.</figcaption>
-</div> 
-      
-    <p>We plot all these important variables against the target variable and against each other in the plot below.</p>
-<div>
-    <img src="pair.png" alt="pair plot"style="width: 100%;" class="center" /><figcaption>Pair plot of the significant features including the run-time duration.</figcaption>
-</div> 
-
-<h1>Conclusion</h1>
-<p>These important factors we found in the previous section suggest that optimizing the use of certain resources in a data center can be a significant factor in reducing run-time duration. For instance, ensuring that the ratio of GPUs to CPUs is appropriate for the job and that sufficient memory capacity is available may help to reduce the run-time duration. Additionally, minimizing the time spent waiting for resources to become available may be beneficial. Here we demonstrated that AI models adequately predict the duration of jobs submitted to HPC clusters. AI are able to suggest an appropriate amount of time for a given user-submitted job that best reduces waiting times for other users and improves overall resource allocation.</p>
-
-<p>It is worth noting that these findings are specific to the particular dataset and model used in your analysis, and it may be useful to consider other factors that could potentially influence run-time duration in different contexts.</p>
-      
 <h1 id="references">References<a hidden class="anchor" aria-hidden="true" href="#references">#</a></h1>
-<p>[1] <a href="https://arxiv.org/ftp/arxiv/papers/2108/2108.02037.pdf">Samsi, S., Weiss, M.L., Bestor, D., Li, B., Jones, M., Reuther, A., Edelman, D., Arcand, W., Byun, C., Holodnack, J., Hubbell, M., Kepner, J., Klein, A., McDonald, J., Michaleas, A., Michaleas, P., Milechin, L., Mullen, J.S., Yee, C., Price, B., Prout, A., Rosa, A., Vanterpool, A., McEvoy, L., Cheng, A., Tiwari, D., & Gadepally, V.N. (2021). The MIT Supercloud Dataset. 2021 IEEE High Performance Extreme Computing Conference (HPEC), 1-8.</a></p>
-<p>[2] <a href="https://proceedings.neurips.cc/paper/2017/hash/6449f44a102fde848669bdd9eb6b76fa-Abstract.html">Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., Ye, Q., & Liu, T. (2017). LightGBM: A Highly Efficient Gradient Boosting Decision Tree. NIPS.</a></p>
 
-<!-- 
-Possible refferences 
-https://arxiv.org/pdf/2209.05300v1.pdf : An Evaluation of Low Overhead Time Series Preprocessing Techniques for Downstream Machine Learning
--->
+<p><a href="https://arxiv.org/pdf/1408.6027.pdf">Geng, X. (2013). Label Distribution Learning. IEEE Transactions on Knowledge and Data Engineering, 28, 1734-1748.</a></p>
+
+<p><a href="https://arxiv.org/pdf/2210.08184.pdf">Guo, Q., Zheng, Z., Jia, X., & Xu, L. (2022). Label distribution learning via label correlation grid. ArXiv, abs/2210.08184.</a></p>
+
+<p><a href="https://arxiv.org/pdf/2202.11424.pdf">Si, S., Wang, J., Peng, J., & Xiao, J. (2022). Towards Speaker Age Estimation With Label Distribution Learning. ICASSP 2022 - 2022 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), 4618-4622.</a></p>
+    
+<p><a href="https://arxiv.org/pdf/2209.13824.pdf">Zheng, Zhuoran and Xiuyi Jia. “Label Distribution Learning via Implicit Distribution Representation.” ArXiv abs/2209.13824 (2022): n. pag.</a></p>
+      
+<p><a href="https://ojs.aaai.org/index.php/AAAI/article/view/16465">Zhao, Z., Liu, Q., & Zhou, F. (2021). Robust Lightweight Facial Expression Recognition Network with Label Distribution Training. AAAI Conference on Artificial Intelligence.</a></p>
+      
+      
   </div>
 
   <footer class="post-footer">
