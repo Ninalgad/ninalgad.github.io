@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Improving Datacenters Energy Efficiency | Green Learning</title>
+<title>Symbolic Mathematics with Transformers | Green Learning</title>
 <meta name="keywords" content="knn, svg, lgbm, hpc" />
 <meta name="description" content="Understanding meta-data documenting virtual runtimes used for ML tasks. Finding the biggest contributos energy consumption and reducing wasted resource time using ML models.">
 <meta name="author" content="Dean Ninalga">
@@ -269,9 +269,10 @@ if (!doNotTrack) {
 
   <div class="post-content">
 
-<p>Modern large language models trained to do math such as Math GPT, ChatGPT, GPT-3 (fintuned for math) \& gpt-math can be fairly accurate and new models are being released every few months. However, there are still glaring issues when it comes to performing tasks that require accurate multistep reasoning. For example <a href="https://www.youtube.com/watch?v=GBtfwa-Fexc">ChatGPT still can't adequately awnser non-standard 1st year college Physiscs questions and still somtimes gets middle school level math problems wrong</a>. And I will demonstrate later that MathGPT seems to struggle with non-statndard integration. Hence, there is a growing opportinity to create a large language model that can accurately reason about mathematical symbols even if it is at the cost of having the model explain its resoning in plane english.</p>
+<p>Modern large language models trained to do math such as Math GPT, ChatGPT, GPT-3 (fintuned for math) \& gpt-math can be fairly accurate and new models are being released every few months. However, there are still glaring issues when it comes to performing tasks that require accurate multistep reasoning. For example <a href="https://www.youtube.com/watch?v=GBtfwa-Fexc">ChatGPT still can't adequately awnser non-standard 1st year college Physiscs questions and still somtimes gets middle school level math problems wrong</a>. Moreover, I will demonstrate later that MathGPT seems to struggle with non-statndard integration. Hence, there is a growing opportinity to create a large language model that can accurately reason about mathematical symbols even if it is at the cost of having the model explain its resoning in plane english.</p>
 
-<p>The solution: Simulation. Simulating millions of randomly generated equations is somthing researcher Francois Charton to train transformers to outperform highly specilised software such as Mathematica, Maple and Matlab in terms of accuracy and speed. Charton and others over the years demonstrated the effectiveness of transformers at solving elaborated tasks in mathematics. Tasks such as,
+<p>The solution: Simulation. Simulating millions of randomly generated equations is somthing researcher Francois Charton did to train transformers that outperform highly specilised software such as Mathematica, Maple and Matlab in terms of accuracy and speed. Charton and others over the years demonstrated the effectiveness of transformers at solving several elaborated tasks in mathematics. Tasks such as,
+      </p>
 <ul>
 <li>symbolic integration and solving differential equations (https://arxiv.org/pdf/1912.01412.pdf)</li>  
 <li>basic matrix operations, eigenvalue decomposition, matrix inversion (https://arxiv.org/pdf/2112.01898.pdf)</li>
@@ -280,13 +281,38 @@ if (!doNotTrack) {
 </ul>
       
 <h1>Tree generation</h1>
-<p>Simulation is easy</p>
-<h1></h1>
+<p>Simulation of millions of equations is made possible through the use of trees. First one may think to feed an equation to a model in left-to-right format, as in the case with English or similar laguages. However, naive approach does not take into account for complex equation structures that can be introduced by parentheses. Indeed, Hahn (2019) demonstrated "theoretical limitations of the computational abilities of self-attention, finding that it cannot model periodic finite-state languages, nor hierarchical structure" where these types of strucures can arrise through the use of bracketing and parentheses. However, the use of trees eliminates the need for parentheses and ensures the proper order of operations, making the mapping between expressions and trees one-to-one. Where here we represent mathematical expressions as trees with operators, functions, and variables represented as nodes. If we can "flatten" a tree structure of an equation to a 1d sequence then we can think of mathematical problems as transforming one expression into another, in a manner similar to machine translation.</p>
+<h2>Unary-Binary Trees</h2>
+<p>In practice, what we are randomly generating are what are called unary-binary trees. Where non-leaf nodes are operators/functions that act on one argument (unary) or two (binary). Examples of binary operations include addition and subtraction and examples of an unary operatios include sin, cos and logarithim. Sparing the theoritical details, we will outline the algorithim below.</p>
+<h3>Preliminaries</h3>
+<p>Let $D(e, n)$ be the number of subtrees with $n$ internal nodes that can be generated from $e$ empty nodes. Here we are sampling from a set of $L$ leaves (e.g. variables, constants) alongside a set of internal nodes composed of $p_1$ urnary operators and $p_2$ binary operators. Hence we define $D$ as:
+      </p>
+<ul>
+<li>$D(0,n)=0$</li>
+<li>$D(e,0)=L^e$</li>
+<li>$D(e,n)=LD(e-1,n)+p_1D(e,n-1)+p_2D(e+1,n-1)$</li>
+</ul>
+<p>
+The third equation states that with $e > 0$ empty nodes, the first one will either
+be a leaf ($LD(e − 1, n)$ possible trees), a unary operator ($p_1D(e, n − 1)$ trees), or a binary operator
+($p_2D(e + 1, n − 1)$ trees).</p>
+<p>Next, we define the distribution of which we are samling from, $L(e,n)$. Where $P(L(e,n)=(k,a))$ is the probability that the next internal node is in position $k$ and has arity $a\in\{1,2\}$ (i.e. urnary or binary). Namely,
+$$P(L(e,n)=(k,1)):=\frac{L^eD(e-k,n-1)}{D(e,n)}, P(L(e,n)=(k,2)):=\frac{L^eD(e-k+1,n-1)}{D(e,n)}.$$
       
+Finaly we can understand the pseudo code for equation generation.</p>
       
+<h1>The Equation Space Size</h1>
+      
+<h1>Polish notation</h1>
+<p>Generated trees are enumerated in prefix order (normal Polish notation) and converted into
+sequences of tokens compatible with our models. Integers and floating point reals are also
+represented as sequences: 142 as [INT+, 1, 4, 2], and 0.314 as [FLOAT+, 3, DOT, 1, 4, E,
+INT-, 1]. A derivation of the size of the problem space is provide</p>
+<h3>Simple Example</h3>
+
 <h1 id="references">References<a hidden class="anchor" aria-hidden="true" href="#references">#</a></h1>
-<p>[1] <a href="https://arxiv.org/ftp/arxiv/papers/2108/2108.02037.pdf">Samsi, S., Weiss, M.L., Bestor, D., Li, B., Jones, M., Reuther, A., Edelman, D., Arcand, W., Byun, C., Holodnack, J., Hubbell, M., Kepner, J., Klein, A., McDonald, J., Michaleas, A., Michaleas, P., Milechin, L., Mullen, J.S., Yee, C., Price, B., Prout, A., Rosa, A., Vanterpool, A., McEvoy, L., Cheng, A., Tiwari, D., & Gadepally, V.N. (2021). The MIT Supercloud Dataset. 2021 IEEE High Performance Extreme Computing Conference (HPEC), 1-8.</a></p>
-<p>[2] <a href="https://proceedings.neurips.cc/paper/2017/hash/6449f44a102fde848669bdd9eb6b76fa-Abstract.html">Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., Ye, Q., & Liu, T. (2017). LightGBM: A Highly Efficient Gradient Boosting Decision Tree. NIPS.</a></p>
+<p>[1] <a href="https://www.arxiv-vanity.com/papers/1906.06755/">Hahn, M. (2019). Theoretical Limitations of Self-Attention in Neural Sequence Models. Transactions of the Association for Computational Linguistics, 8, 156-171.</a></p>
+      
 
 <!-- 
 Possible refferences 
