@@ -276,7 +276,7 @@ if (!doNotTrack) {
 <ul>
 <li>symbolic integration and solving differential equations (https://arxiv.org/pdf/1912.01412.pdf)</li>  
 <li>basic matrix operations, eigenvalue decomposition, matrix inversion (https://arxiv.org/pdf/2112.01898.pdf)</li>
-<li>properties of differential systems, such as local stability, behavior at infinity and controllability (https://arxiv.org/pdf/2006.06462.pdf)</li>
+<li>properties of differential systems, such as local stability, behavior at infinity and controllability (Charton, Hayat, & Lample  (2021))</li>
 <li>recurrence relation prediction from sequences of integers or floats (https://arxiv.org/pdf/2201.04600.pdf)</li>
 </ul>
       
@@ -302,6 +302,14 @@ $$P(L(e,n)=(k,1)):=\frac{L^eD(e-k,n-1)}{D(e,n)}, P(L(e,n)=(k,2)):=\frac{L^eD(e-k
 Finaly we can understand the pseudo code for equation generation.</p>
       
 <h1>The Equation Space Size</h1>
+<p>Here we provide a way to count of the number of equations that can be genereated this way. As a quick reminder, we are sampling trees of $L$ possible leaves (integers or variables) and $n$ possible internal nodes composed of $p_1$ possible urnary operators and $p_2$ possible binary operators. Then, the count as a function of $n$ is given by,</p>
+<ul>
+<li>$E_{0}=L$</li>
+<li>$E_{1}=(p_1+p_2 L)L$</li>
+<li>$(n+1)E_n=(p_1+2p_2 L)(2n-1)E_{n-1}-p_1(n-2)E_{n-2}$</li>
+</ul>
+
+<p>Undeerstand that $E_n$ is not a small number. For example in  when training transformer models to learn mathematical properties of differential systems they used $L=20,p_1=$</p>
       
 <h1>Polish notation</h1>
 <p>Generated trees are enumerated in prefix order (normal Polish notation) and converted into
@@ -311,7 +319,9 @@ INT-, 1]. A derivation of the size of the problem space is provide</p>
 <h3>Simple Example</h3>
 
 <h1 id="references">References<a hidden class="anchor" aria-hidden="true" href="#references">#</a></h1>
-<p>[1] <a href="https://www.arxiv-vanity.com/papers/1906.06755/">Hahn, M. (2019). Theoretical Limitations of Self-Attention in Neural Sequence Models. Transactions of the Association for Computational Linguistics, 8, 156-171.</a></p>
+<p>[1]Charton, F., Hayat, A., \& Lample, G. (2021). Learning advanced mathematical computations from examples. International Conference on Learning Representations.
+</p>
+<p>[2] <a href="https://www.arxiv-vanity.com/papers/1906.06755/">Hahn, M. (2019). Theoretical Limitations of Self-Attention in Neural Sequence Models. Transactions of the Association for Computational Linguistics, 8, 156-171.</a></p>
       
 
 <!-- 
