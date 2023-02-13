@@ -5,9 +5,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Symbolic Mathematics with Transformers | Green Learning</title>
-<meta name="keywords" content="knn, svg, lgbm, hpc" />
-<meta name="description" content="Understanding meta-data documenting virtual runtimes used for ML tasks. Finding the biggest contributos energy consumption and reducing wasted resource time using ML models.">
+<title>Solving Symbolic Mathematics with Random Equation Generation | Green Learning</title>
+<meta name="keywords" content="binary trees, urnary trees, urnary binary trees" />
+<meta name="description" content="Large Language Models (LLM) the have recently come out are often found to stuggle with non standard symbolic mathematics. In this post we go over the work of Lample & Charton, (2019) how demonstrate the potential of LLM symbolic math given the right representation and masive specilised datasets.">
 <meta name="author" content="Dean Ninalga">
 <link rel="canonical" href="https://ninalgad.github.io/posts/2023-02-06-sym/" />
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.949307ebc5cfbfc5e27c5ec3d332ce0be9137ec4137e02aefc52cf0267172e22.css" integrity="sha256-lJMH68XPv8XifF7D0zLOC&#43;kTfsQTfgKu/FLPAmcXLiI=" rel="preload stylesheet" as="style">
@@ -68,8 +68,8 @@ if (!doNotTrack) {
 	
 	ga('send', 'pageview');
 }
-</script><meta property="og:title" content="Symbolic Mathematics with Transformers" />
-<meta property="og:description" content="Understanding meta-data documenting virtual runtimes used for ML tasks. Finding the biggest contributos energy consumption and reducing wasted resource time using ML models." />
+</script><meta property="og:title" content="Solving Symbolic Mathematics with Random Equation Generation" />
+<meta property="og:description" content="Large Language Models (LLM) the have recently come out are often found to stuggle with non standard symbolic mathematics. In this post we go over the work of Lample & Charton, (2019) how demonstrate the potential of LLM symbolic math given the right representation and masive specilised datasets." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ninalgad.github.io/posts/2023-02-06-sym/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-02-06T15:10:30-07:00" />
@@ -90,7 +90,7 @@ if (!doNotTrack) {
     {
       "@type": "ListItem",
       "position":  2 ,
-      "name": "Symbolic Mathematics with Transformers",
+      "name": "Solving Symbolic Mathematics with Random Equation Generation",
       "item": "https://ninalgad.github.io/posts/2023-02-06-sym/"
     }
   ]
@@ -100,11 +100,10 @@ if (!doNotTrack) {
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Symbolic Mathematics with Transformers",
-  "name": "Symbolic Mathematics with Transformers",
-  "description": "Understanding meta-data documenting virtual runtimes used for ML tasks. Finding the biggest contributos energy consumption and reducing wasted resource time using ML models.",
+  "headline": "Solving Symbolic Mathematics with Random Equation Generation",
+  "name": "Large Language Models (LLM) the have recently come out are often found to stuggle with non standard symbolic mathematics. In this post we go over the work of Lample & Charton, (2019) how demonstrate the potential of LLM symbolic math given the right representation and masive specilised datasets.",
   "keywords": [
-    "datacenter", "data-analytics", "lgbm", "knn", "svm"
+    "binary trees", "urnary trees", "urnary-binary trees"
   ],
   "articleBody": "",
   "wordCount" : "1000",
@@ -233,7 +232,7 @@ if (!doNotTrack) {
     <h1 class="post-title">
       Solving Symbolic Mathematics with Random Equation Generation
     </h1>
-    <div class="post-meta"><span title='2023-02-06 15:10:30 -0700 PDT'>Febuary 6, 2023</span>&nbsp;·&nbsp;29 min read&nbsp;·&nbsp;Dean Ninalga
+    <div class="post-meta"><span title='2023-02-06 15:10:30 -0700 PDT'>Febuary 6, 2023</span>&nbsp;·&nbsp;10 min read&nbsp;·&nbsp;Dean Ninalga
 
 </div>
   </header> <div class="toc">
@@ -243,24 +242,17 @@ if (!doNotTrack) {
         </summary>
 
         <div class="inner"><ul>
-                <li>
-                    <a href="#goal-def" aria-label="question-n-goal-definition">The Challenge
-</a></li>
-                <li>
-                    <a href="#data" aria-label="question-n-goal-definition">The Data
-</a></li>
-                <li>
-                    <a href="#cleaning" aria-label="cleaning">Data Cleaning</a></li>
-                <li>
-                    <a href="#fe" aria-label="fe">Feature Engineering</a></li>
-                <li>
-                    <a href="#modeling" aria-label="modeling">Modeling</a></li>
-                <li>
-                    <a href="#inference" aria-label="inference">Inference</a></li>
-                <li>
-                    <a href="#conclusion" aria-label="modeling">Conclusion</a></li>
-                <li>
-                    <a href="#references" aria-label="References">References</a>
+                <li><a href="#intro" aria-label="intro">Introduction</a></li>
+            
+                <li><a href="#tgen" aria-label="tgen">Tree Generation</a></li>
+            
+                <li><a href="#space" aria-label="space">The Equation Space Size</a></li>
+            
+                <li><a href="#drawbacks" aria-label="drawbacks">Drawbacks</a></li>
+            
+                <li><a href="#conclusion" aria-label="modeling">Conclusion</a></li>
+            
+                <li><a href="#references" aria-label="References">References</a>
                 </li>
             </ul>
         </div>
@@ -268,23 +260,23 @@ if (!doNotTrack) {
 </div>
 
   <div class="post-content">
-
-<p>Modern large language models trained to do math such as Math GPT, ChatGPT, GPT-3 (fintuned for math) \& gpt-math can be fairly accurate and new models are being released every few months. However, there are still glaring issues when it comes to performing tasks that require accurate multistep reasoning. For example <a href="https://www.youtube.com/watch?v=GBtfwa-Fexc">ChatGPT still can't adequately awnser non-standard 1st year college Physiscs questions and still somtimes gets middle school level math problems wrong</a>. Moreover, I will demonstrate later that MathGPT seems to struggle with non-statndard integration. Hence, there is a growing opportinity to create a large language model that can accurately reason about mathematical symbols even if it is at the cost of having the model explain its resoning in plane english.</p>
+<h1 id="pt">Introduction<a hidden class="anchor" aria-hidden="true" href="#intro">#</a></h1>
+<p>Modern large language models trained to do math such as Math GPT, ChatGPT, GPT-3 (fintuned for math) & gpt-math can be fairly accurate and new models are being released every few months. However, there are still glaring issues when it comes to performing tasks that require accurate multistep reasoning. For example <a href="https://www.youtube.com/watch?v=GBtfwa-Fexc">ChatGPT still can't adequately awnser non-standard 1st year college Physiscs questions and still somtimes gets middle school level math problems wrong</a>. Hence, there is a growing opportinity to create a large language model that can accurately reason about mathematical symbols even if it is at the cost of having the model explain its resoning in plane English.</p>
 
 <p>The solution: Simulation. Simulating millions of randomly generated equations is somthing researcher Francois Charton did to train transformers that outperform highly specilised software such as Mathematica, Maple and Matlab in terms of accuracy and speed. Charton and others over the years demonstrated the effectiveness of transformers at solving several elaborated tasks in mathematics. Tasks such as,
       </p>
 <ul>
-<li>symbolic integration and solving differential equations (https://arxiv.org/pdf/1912.01412.pdf)</li>  
-<li>basic matrix operations, eigenvalue decomposition, matrix inversion (https://arxiv.org/pdf/2112.01898.pdf)</li>
-<li>properties of differential systems, such as local stability, behavior at infinity and controllability (Charton, Hayat, & Lample  (2021))</li>
-<li>recurrence relation prediction from sequences of integers or floats (https://arxiv.org/pdf/2201.04600.pdf)</li>
+<li><a href="https://arxiv.org/pdf/1912.01412.pdf">symbolic integration and solving differential equations</a></li>  
+<li><a href="https://arxiv.org/pdf/2112.01898.pdf">matrix operations, eigenvalue decomposition, matrix inversion</a></li>
+<li><a = href="https://arxiv.org/pdf/2006.06462.pdf">properties of differential systems, local stability, behavior at infinity and controllability</a></li>
+<li><a href="https://arxiv.org/pdf/2201.04600.pdf">recurrence relation prediction from sequences of integers or floats</a></li>
 </ul>
-<p>In this post we will show how to generate random equations in Python as shown in <a href="https://arxiv.org/pdf/1912.01412.pdf">Lample & Charton, (2019)</a> and argue why generation in this manner is the best way to teach languae models symbolic mathematics.</p>
-      
-<h1>Tree generation</h1>
+<p>In this post we will show how to generate random equations in Python as shown in <a href="https://arxiv.org/pdf/1912.01412.pdf">Lample & Charton, (2019)</a> and argue why random equation generation in this manner is the best way to teach languae models symbolic mathematics.</p>
+
+<h1 id="pt">Tree Generation<a hidden class="anchor" aria-hidden="true" href="#tgen">#</a></h1>
 <img src="eg-eqns.png" alt="equation trees"style="width: 80%;" class="center" /><figcaption>Equations represented as trees in <a href="https://arxiv.org/pdf/1912.01412.pdf">Lample & Charton, (2019)</a></figcaption>
       
-<p>Simulation of millions of equations is made possible through the use of trees. First one may think to feed an equation to a model in left-to-right format, as in the case with English or similar laguages. However, naive approach does not take into account for complex equation structures that can be introduced by parentheses. Indeed, Hahn (2019) demonstrated "theoretical limitations of the computational abilities of self-attention, finding that it cannot model periodic finite-state languages, nor hierarchical structure" where these types of strucures can arrise through the use of bracketing and parentheses. However, the use of trees eliminates the need for parentheses and ensures the proper order of operations, making the mapping between expressions and trees one-to-one. Where here we represent mathematical expressions as trees with operators, functions, and variables represented as nodes. If we can "flatten" a tree structure of an equation to a 1d sequence then we can think of mathematical problems as transforming one expression into another, in a manner similar to machine translation.</p>
+<p>Simulation of millions of equations is made possible through the use of trees. The first way one may think is to feed an equation to a model in left-to-right format, as in the case of English or similar languages. However, the naive approach does not account for complex equation structures partly introduced by parentheses. Indeed, Hahn (2019) demonstrated "theoretical limitations of the computational abilities of self-attention, finding that it cannot model periodic finite-state languages, nor hierarchical structure" where these types of structures can arise through the usage of bracketing and parentheses. However, using trees as the basis for the representation eliminates the need for parentheses and ensures the proper order of operations, making the mapping between expressions and trees one-to-one. Where here we represent mathematical expressions as trees with operators, functions, and variables represented as nodes. If we can "flatten" a tree structure of an equation to a 1d sequence then we can think of mathematical problems as transforming one expression into another, indicative of machine translation.</p>
 <h2>Unary-Binary Trees</h2>
 <p>In practice, what we are randomly generating are what are called unary-binary trees. Where non-leaf nodes are operators/functions that act on one argument (unary) or two (binary). Examples of binary operations include addition and subtraction and examples of an unary operatios include sin, cos and logarithim. Sparing the theoritical details, we will outline the algorithim below.</p>
 <h3>Reccursive Difinition</h3>
@@ -305,7 +297,7 @@ $$P(L(e,n)=(k,1)):=\frac{L^eD(e-k,n-1)}{D(e,n)}, P(L(e,n)=(k,2)):=\frac{L^eD(e-k
 Finaly we can understand the pseudocode for Unary-Binary equation generation.</p>
 <img src="ubt-pcode.png" alt="Unary-Binary"style="width: 80%;" class="center" /><figcaption>Pseudocode for equation generation as presented in <a href="https://arxiv.org/pdf/1912.01412.pdf">Lample & Charton, (2019)</a></figcaption>
       
-<h1>The Equation Space Size</h1>
+<h1 id="pt">The Equation Space Size<a hidden class="anchor" aria-hidden="true" href="#space">#</a></h1>
 <p>Here we provide a way to count of the number of equations that can be genereated this way. As a quick reminder, we are sampling trees of $L$ possible leaves (integers or variables) and $n$ possible internal nodes composed of $p_1$ possible urnary operators and $p_2$ possible binary operators. Then, the count as a function of $n$ is given by,</p>
 <ul>
 <li>$E_{0}=L$</li>
@@ -319,7 +311,7 @@ Finaly we can understand the pseudocode for Unary-Binary equation generation.</p
 <li>$E_{1}=528$</li>
 <li>$(n+1)E_n=80(2n-1)E_{n-1}-8(n-2)E_{n-2}$</li>
 </ul>
-<p>Taking a few examples we get see: $E_{10}=2.31\cdot10^{21}$ and $E_{20}=9.46\cdot 10^{42}$, where $n<20$ for pratical applications.</p>
+<p>Taking a few examples we get see: $E_{10}=2.31\cdot10^{21}$ and $E_{20}=9.46\cdot 10^{42}$, where $n<20$ for most pratical applications.</p>
 
 <h1>Drawbacks</h1>
 <p>In the works mentioned, a unique large language model is trained and developed for each task. Hence, these models cannot generate valid output for tasks it is not trained on, unlike MathGPT for example. Moreover, these models are not trained to explain the reasonings that undergird their output solutions. This is indicative of the explainability vs. accuracy discussion in the context of simple regression/classification, where instead explainability is referring to language models literally giving explanations in plane English.</p>
@@ -328,10 +320,9 @@ Finaly we can understand the pseudocode for Unary-Binary equation generation.</p
 <p>Here I presented a couple of points arguing why equation generation with trees is the best way to train models. Firstly, we avoid having to deal with the potentially complex and hierarchical structure introduced by parentheses. Secondly, show the computation of the exceptionally large equation space size which certainly dwarfs any online dataset of symbolic mathematics generated by humans. Generating enables models to learn from a much more diverse and uncommon set of equations and allows us to scale model capacity beyond current baselines.</p>
 <h1 id="references">References<a hidden class="anchor" aria-hidden="true" href="#references">#</a></h1>
 
-<p> [1]Charton, F., Hayat, A., & Lample, G. (2021). Learning advanced mathematical computations from examples. International Conference on Learning Representations.
-</p>
-<p>[2] <a href="https://www.arxiv-vanity.com/papers/1906.06755/">Hahn, M. (2019). Theoretical Limitations of Self-Attention in Neural Sequence Models. Transactions of the Association for Computational Linguistics, 8, 156-171.</a></p>
-<p>[3] <a href="https://arxiv.org/pdf/1912.01412.pdf">Lample, G., & Charton, F. (2019). Deep Learning for Symbolic Mathematics. ArXiv, abs/1912.01412.</a></p>
+
+<p> [1] <a href="https://www.arxiv-vanity.com/papers/1906.06755/">Hahn, M. (2019). Theoretical Limitations of Self-Attention in Neural Sequence Models. Transactions of the Association for Computational Linguistics, 8, 156-171.</a></p>
+<p> [2] <a href="https://arxiv.org/pdf/1912.01412.pdf">Lample, G., & Charton, F. (2019). Deep Learning for Symbolic Mathematics. ArXiv, abs/1912.01412.</a></p>
     
       
 
