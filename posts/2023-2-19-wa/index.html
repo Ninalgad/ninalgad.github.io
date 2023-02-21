@@ -273,17 +273,38 @@ Here we attempt to provide the theoretical foundations and explore the recent li
 </p>
 
       <h1>Theory</h1>
-      <h2>Comparing WA to Ensembling</h2>
-      <p>Here we want to explain when is it better to use an Encemble vs. WA. Ensembling is the go-to way to aggregate models alongside their outputs that gauntness improvement in test-set performance.
+      <h2>Comparing Weight Averaging to Ensembling</h2>
+      <p>Here we want to explain when is it better to use an Ensemble (ES) vs. Weight Averaging (WA) and present analytical derivations found in Wortsman et al., (2022).
+          ES is the go-to way to aggregate models alongside their outputs that gauntness improvement in test-set performance.
       However, ensembling multiples of modern models can often be impractical in terms of training, inference and, memory resources storage especially in low resource settings.
           For example, using ensembles of EfficentNets and/or VITs is impossible for inference on mobile phones or Mars Space Rovers without sacrificing substantial accuracy.
           Recent results show that WA can match or even outperform state-of-the-art model's validation accuracy.
-          Hence, a natural question is: When is it better to use an Encemble vs. WA?
+          Hence, a natural question is: When is it better to use an ES vs. WA?
       </p>
 
-      <p>$$L^{soup}_{\alpha}-L^{ens}_{\alpha}\approx\frac{\alpha(1-\alpha)}{2}\Big(-\frac{d^2}{d\alpha^2}L^{soup}_{\alpha}+\beta^{2}\mathbb{E}_x\text{Var}_{Y}[\Delta f_{Y}(x)]\Big)$$
-      Where $Y$ is the random variable described by the temperature scaled output class probabilities of the network: $Y\sim\text{softmax}(\beta f(x;\theta_\alpha))$. Moreover, $\Delta f(x):=f(x;\theta_1)-f(x; \thata_{0})$
+      <p>Let $\theta_0$ and $\theta_1$ be the different weights generated from training a model $f(\cdot|\theta)$.
+          Given an interpolation parameter $\alpha\in[0,1]$ we can define the ES model as $f^{ES}(\cdot|\theta_\alpha):=(1-\alpha)f(\cdot|\theta_0)+\alpha f(\cdot|\theta_1)$.
+          Additionally, we can define the WA model $f^{ES}(\cdot|\theta_\alpha)$ for $\theta_\alpha:=(1-\alpha)\theta_0+\alpha\theta_1$.
+          </p>
+      <p>
+          Wortsman et al., (2022) then prove the the relation:
+          $$L(f^{WA})-L(f^{ES})\approx\frac{\alpha(1-\alpha)}{2}\Big(\beta^{2}\mathbb{E}_x\text{Var}_{Y}[\Delta f_{Y}(x)]-\frac{d^2}{d\alpha^2}L(f^{WA})\Big)$$
+          Where $L$ is taken to be the expected cross-entropy classification loss where we simplify the notation for the sake of clarity.
+          We describe the components in plane English below:
       </p>
+      <ul>
+          <li>$\beta^{2}\mathbb{E}_x\text{Var}_{Y}[\Delta f_{Y}(x)]$: describes <b>the confidence of the predictions</b>, where $\Delta f(x):=f(x|\theta_1)-f(x|\theta_{0})$ and
+              $Y$ is the label random variable described by the $\beta$ temperature scaled output class probabilities of the WA network: $Y\sim\text{softmax}(\beta f^{WA}(x))$.
+          </li>
+          <li>
+              $\frac{d^2}{d\alpha^2}L(f^{WA})$: describes <b>the flatness of the WA loss</b>.
+          </li>
+      </ul>
+      <p>Using this relationship between $L(f^{WA})$ and $L(f^{ES})$ we can make several observations.
+          Namely, as the confidence of the model predictions lowers (i.e. the variance term increases) then ES is an increasingly becomes a better option to WA, all else being equal.
+          Similarly, the flatter the WA loss landscape becomes (i.e. second derivative term decreases) then WA is an increasingly becomes a better option to ES, all else being equal.
+      </p>
+
 
 <h1 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h1>
 <p>
@@ -297,15 +318,9 @@ Label Distribution Learning (LDL) strategies are machine learning techniques tha
     Ramasesh, V.V., Lewkowycz, A., & Dyer, E. (2022). E FFECT OF MODEL AND PRETRAINING SCALE ON CATASTROPHIC FORGETTING IN NEURAL NETWORKS.
 </a></p>
 
-<p><a href="https://arxiv.org/pdf/2210.08184.pdf">Guo, Q., Zheng, Z., Jia, X., & Xu, L. (2022). Label distribution learning via label correlation grid. ArXiv, abs/2210.08184.</a></p>
-
-<p><a href="https://arxiv.org/pdf/2202.11424.pdf">Si, S., Wang, J., Peng, J., & Xiao, J. (2022). Towards Speaker Age Estimation With Label Distribution Learning. ICASSP 2022 - 2022 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), 4618-4622.</a></p>
-    
-<p><a href="https://arxiv.org/pdf/2209.13824.pdf">Zheng, Zhuoran and Xiuyi Jia. “Label Distribution Learning via Implicit Distribution Representation.” ArXiv abs/2209.13824 (2022): n. pag.</a></p>
-      
-<p><a href="https://ojs.aaai.org/index.php/AAAI/article/view/16465">Zhao, Z., Liu, Q., & Zhou, F. (2021). Robust Lightweight Facial Expression Recognition Network with Label Distribution Training. AAAI Conference on Artificial Intelligence.</a></p>
-      
-      
+      <p><a href="https://arxiv.org/pdf/2203.05482v3.pdf">
+Wortsman, M., Ilharco, G., Gadre, S.Y., Roelofs, R., Gontijo-Lopes, R., Morcos, A.S., Namkoong, H., Farhadi, A., Carmon, Y., Kornblith, S., & Schmidt, L. (2022). Model soups: averaging weights of multiple fine-tuned models improves accuracy without increasing inference time. International Conference on Machine Learning.
+     </a></p>
   </div>
 
   <footer class="post-footer">
