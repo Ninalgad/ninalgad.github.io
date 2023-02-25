@@ -325,19 +325,30 @@ WA can improve OOD tasks, indicative of the learning-to-learn paradigm [see doma
       <p>The goal of domain adaptation is to get a model to perform well on a target task $\mathbb{T}$ given a set of domain tasks $\mathbb{D}:=\{D_i\}_{i=1}^{I}$</p>
 
       <h2>Flat Minima Improves Domain Generalization Gap</h2>
-      <p>$$\begin{align}E_{\mathbb{T}}(\hat{\theta}^\gamma)-\min_{\theta^\prime}E_{\mathbb{T}}(\theta^\prime) &\leq
+      <p>
+          It is not necessarily true that a person who is knowledgeable in music theory, music history, music performance and is a professional-level multi-instrumentalist will be good at math, or learn math at particularly faster rate.
+          However, if a person is knowledgeable in music, majored in physics in college, a PHD in engineering, then chances are they could excel at learning almost any math related topic since their proficiencies are relatively math related.
+          In the context of training networks, it is only recently have concrete theoretical derivations for the above intuition.
+          Namely, let</p>
+      <ul>
+          <li>$E_{D}(\theta)$,$E_{\mathbb{T}}(\theta)$ be the loss averaged across all domains or just the target domain respectively, of a model with parameters $\theta$</li>
+          <li>$E_{D}^{\gamma}(\theta):=\max_{\lvert\lvert\epsilon\rvert\rvert\leq\gamma}\hat{E}_{D}(\theta+\epsilon)$ which is the max loss (defined above) for all the parameters in a hypersphere of radius $\gamma$ centered at $\theta$</li>
+</ul>
+<p>then the following is proven,
+          $$\begin{align}E_{\mathbb{T}}(\hat{\theta}^\gamma)-\min_{\theta^\prime}E_{\mathbb{T}}(\theta^\prime) &\leq
            \hat{E}_{D}(\hat{\theta}^\gamma)-\min_{\theta^\prime}\hat{E}_{D}(\theta^\prime) \\
           &+\frac{1}{I}\sum_{i=1}^{I}\text{Div}(D_i,\mathbb{T}) + C(n,\delta)
           \end{align}$$
-      holds with a probability at least $1-\delta$, where $C(n,\delta)$ is a term dependent on $n$, the combined total size of the domain tasks and $\delta$ amung other things we excluded for the sake of clarity.
-      </p>
+      holds with a probability at least $1-\delta$, where $C(n,\delta)$ is a term dependent on $n$: the combined total size of the domain tasks and $\delta$ among other things we excluded for the sake of clarity.
+Note, the usage of $\hat{E}$ and $\hat{\theta}$ which are the empirical loss and parameters estimated respectively.
+</p>
 
       <p>
         We describe the components in plane English below:
       </p>
       <ul>
-          <li>$\frac{1}{I}\sum_{i=1}^{I}\text{Div}(D_i,\mathbb{T})$: describes <b>an average divergence between the target domain and the source domain</b>, where $Div(D_{i},\mathbb{T}):=\sup_A\lvert \mathbb{P}_{D_i}(A)-\mathbb{P}_{\mathbb{T}}(A)\rvert$ and
-              $Y$ is the label random variable described by the $\beta$ temperature scaled output class probabilities of the WA network: $Y\sim p_{\text{softmax}(\beta f^{WA}(x))}$.
+          <li>$\begin{align}E_{\mathbb{T}}(\hat{\theta}^\gamma)-\min_{\theta^\prime}E_{\mathbb{T}}(\theta^\prime)$: is the <em>generalization gap in the target domain $\mathbb{T}$</em> as it is the </li>
+          <li>$\frac{1}{I}\sum_{i=1}^{I}\text{Div}(D_i,\mathbb{T})$: describes <b>an average divergence between the target domain and the source domain</b>, where $Div(D_{i},\mathbb{T}):=\sup_A\lvert \mathbb{P}_{D_i}(A)-\mathbb{P}_{\mathbb{T}}(A)\rvert$
           </li>
           <li>
               $\frac{d^2}{d\alpha^2}L(f^{WA})$: describes <b>the flatness of the WA loss</b>.
