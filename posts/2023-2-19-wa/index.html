@@ -325,6 +325,7 @@ WA can improve OOD tasks, indicative of the learning-to-learn paradigm [see doma
       <p>The goal of domain adaptation is to get a model to perform well on a target task $\mathbb{T}$ given a set of domain tasks $\mathbb{D}:=\{D_i\}_{i=1}^{I}$</p>
 
       <h2>Flat Minima Improves Domain Generalization Gap</h2>
+      <!--TODO: include analogy relating loss flatness to human skills-->
       <p>
           It is not necessarily true that a person who is knowledgeable in music theory, music history, music performance and is a professional-level multi-instrumentalist will be good at math, or learn math at particularly faster rate.
           However, if a person is knowledgeable in music, majored in physics in college, a PHD in engineering, then chances are they could excel at learning almost any math related topic since their proficiencies are relatively math related.
@@ -332,11 +333,11 @@ WA can improve OOD tasks, indicative of the learning-to-learn paradigm [see doma
           Namely, let</p>
       <ul>
           <li>$E_{D}(\theta)$,$E_{\mathbb{T}}(\theta)$ be the loss averaged across all domains or just the target domain respectively, of a model with parameters $\theta$</li>
-          <li>$E_{D}^{\gamma}(\theta):=\max_{\lvert\lvert\epsilon\rvert\rvert\leq\gamma}\hat{E}_{D}(\theta+\epsilon)$ which is the max loss (defined above) for all the parameters in a hypersphere of radius $\gamma$ centered at $\theta$</li>
+          <li>$E_{D}^{\gamma}(\theta):=\max_{\lvert\lvert\epsilon\rvert\rvert\leq\gamma}\hat{E}_{D}(\theta+\epsilon)$ which is the maximum / worst loss (defined above) for all the parameters in a hypersphere of radius $\gamma$ centered at $\theta$</li>
 </ul>
-<p>then the following is proven,
+<p>then the following inequality is proven,
           $$\begin{align}E_{\mathbb{T}}(\hat{\theta}^\gamma)-\min_{\theta^\prime}E_{\mathbb{T}}(\theta^\prime) &\leq
-           \hat{E}_{D}(\hat{\theta}^\gamma)-\min_{\theta^\prime}\hat{E}_{D}(\theta^\prime) \\
+           \hat{E}_{D}^\gamma(\hat{\theta}^\gamma)-\min_{\theta^\prime}\hat{E}_{D}(\theta^\prime) \\
           &+\frac{1}{I}\sum_{i=1}^{I}\text{Div}(D_i,\mathbb{T}) + C(n,\delta)
           \end{align}$$
       holds with a probability at least $1-\delta$, where $C(n,\delta)$ is a term dependent on $n$: the combined total size of the domain tasks and $\delta$ among other things we excluded for the sake of clarity.
@@ -347,17 +348,20 @@ Note, the usage of $\hat{E}$ and $\hat{\theta}$ which are the empirical loss and
         We describe the components in plane English below:
       </p>
       <ul>
-          <li>$\begin{align}E_{\mathbb{T}}(\hat{\theta}^\gamma)-\min_{\theta^\prime}E_{\mathbb{T}}(\theta^\prime)$: is the <em>generalization gap in the target domain $\mathbb{T}$</em> as it is the </li>
+          <li>$E_{\mathbb{T}}(\hat{\theta}^\gamma)-\min_{\theta^\prime}E_{\mathbb{T}}(\theta^\prime)$: is the <b>generalization gap in the target domain $\mathbb{T}$</b> as it is the difference between the optimal test loss $\min_{\theta^\prime}E_{\mathbb{T}}(\theta^\prime)$ and the test loss produced by $\hat{\theta}^\gamma$.</li>
+
+          <li>$\hat{E}_{D}^\gamma(\hat{\theta}^\gamma)-\min_{\theta^\prime}\hat{E}_{D}(\theta^\prime)$: the difference between the empirical error of the parameter robust solution: $\hat{E}_{D}^\gamma(\hat{\theta}^\gamma)$ and smallest possible empirical error $\min_{\theta^\prime}\hat{E}_{D}(\theta^\prime)$</li>
           <li>$\frac{1}{I}\sum_{i=1}^{I}\text{Div}(D_i,\mathbb{T})$: describes <b>an average divergence between the target domain and the source domain</b>, where $Div(D_{i},\mathbb{T}):=\sup_A\lvert \mathbb{P}_{D_i}(A)-\mathbb{P}_{\mathbb{T}}(A)\rvert$
           </li>
-          <li>
-              $\frac{d^2}{d\alpha^2}L(f^{WA})$: describes <b>the flatness of the WA loss</b>.
-          </li>
       </ul>
+      <p>Given the above definitions the inequality shows that finding flat minima (i.e. $\hat{\theta}^\gamma$ that minimizes $\hat{E}_{D}^\gamma(\hat{\theta}^\gamma)$) results in a smaller generalization gap in the target domain.
+          Hence, selecting domains that have smaller dataset divergence from the target domain (i.e. have overlapping or related data) also improves the target generalization gap.</p>
 
       <h1>Averaging Configurations</h1>
       <p>WA as mentioned earlier is when we take at-least two weights generated from a training algorithm.
-      However, there are several possible ways one can generate sets of compatible weights.
+      However, there are many possible ways one WA into a training procedure, and it is not immediately clear which is best.
+          Again we will try to answer the question by looking at the emergent literature in domain adaptation (DA). Namely, DA is the task of trying to improve performance on a target domain $\mathbb{T}$ given a set of source domains / tasks $\mathbb{D}:=\{D_i\}_{i=1}^{I}$</p>
+
           In this section we follow the recent work of Ram'e et al. (2022) and explore the best ways to configure weight sampling strategies in the context of domain generalization.
       </p>
       <p></p>
