@@ -384,11 +384,15 @@ We will go over three weight collection strategies present in the current litera
       <h1>Empirical Results</h1>
       Finally, we will examine the recent work done by <a href="https://arxiv.org/pdf/2302.04863.pdf">Gueta et al., (2023)</a> where they explore the weight spaces of fine-tuned models trained across multiple datasets and tasks.
       Namely, the authors train an identical language-model across 36 diverse datasets and compare the resulting weights using clustering and draw conclusions based on these empirical findings.
-      In particular the authors demonstrate:
-      <blockquote>Practically, one can average
-several models from the same region and cautiously expect the resulting model to perform better.
-This model can be used without further fine-tuning, in the Same-Dataset region, as has indeed been
-used in practice</blockquote>
+      In particular the author's results regarding WA is two-fold:
+      <blockquote>that the best models may not lie at the edges of the [weight space] region, but rather closer to its center, while fine-tuning often yields
+models at the edge of the region. Motivated by these findings, we demonstrate in §7 that a model
+created by averaging the weights of fine-tuned models from the same region outperforms the
+pre-trained model on a variety of tasks after subsequenet fine-tuning, even on tasks that the original
+fine-tuned models were not trained on.
+</blockquote>
+      <blockquote>one can average
+several models from the same region and cautiously expect the resulting model to perform better.</blockquote>
 
       For the sake of completeness, we will highlight some remaining findings below.
       <ul>
@@ -396,12 +400,17 @@ used in practice</blockquote>
 clustered together" (in weight space)</li>
           <li>"models that were fine-tuned on the same task family are closer to each other and
 are clustered together"</li>
+          <li>"language models that have been fine-tuned on the same
+dataset form a tight cluster in the weight space and that models fine-tuned on
+different datasets from the same underlying task form a looser cluster"</li>
+          <li>"traversing around the region between the models reaches new models that perform
+comparably or even better than models found via fine-tuning, even on tasks that
+the original models were not fine-tuned on"</li>
       </ul>
 
       Training on complex models on complex datasets often require training on loss surfaces that are non-convex and are non-identical across datasets.
-      Hence, training the same model on the same data alongside idential data augmentation, and optimizer settings can yield different weights after fine-tuning.
-      This is why
-      <a href="https://arxiv.org/pdf/2302.04863.pdf">Gueta et al., (2023)</a>
+      Hence, training the same model on the same data can yield different weights after fine-tuning.
+      This is why the above results found by <a href="https://arxiv.org/pdf/2302.04863.pdf">Gueta et al., (2023)</a> is so surprising and interesting.
 
 <h1 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h1>
 <p>
