@@ -381,6 +381,28 @@ We will go over three weight collection strategies present in the current litera
 
       </p>
 
+      <h1>Empirical Results</h1>
+      Finally, we will examine the recent work done by <a href="https://arxiv.org/pdf/2302.04863.pdf">Gueta et al., (2023)</a> where they explore the weight spaces of fine-tuned models trained across multiple datasets and tasks.
+      Namely, the authors train an identical language-model across 36 diverse datasets and compare the resulting weights using clustering and draw conclusions based on these empirical findings.
+      In particular the authors demonstrate:
+      <blockquote>Practically, one can average
+several models from the same region and cautiously expect the resulting model to perform better.
+This model can be used without further fine-tuning, in the Same-Dataset region, as has indeed been
+used in practice</blockquote>
+
+      For the sake of completeness, we will highlight some of the remaining findings below.
+      <ul>
+          <li>"models fine-tuned on the same dataset with different random seeds are
+clustered together" (in weight space)</li>
+          <li>"models that were fine-tuned on the same task family are closer to each other and
+are clustered together"</li>
+      </ul>
+
+      Training on complex models on complex datasets often require training on loss surfaces that are non-convex and are non-identical across datasets.
+      Hence, training the same model on the same data alongside idential data augmentation, and optimizer settings can yield different weights after fine-tuning.
+      This is why
+      <a href="https://arxiv.org/pdf/2302.04863.pdf">Gueta et al., (2023)</a>
+
 <h1 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h1>
 <p>
 Label Distribution Learning (LDL) strategies are machine learning techniques that operate on the assumption of a label distribution that may are or may-not be immediately accessible. Usually, LDL focusses distribution is defined over a fixed set of predefined classes identical to the well-known single-label-learning and the multi-label-learning settings. Here we established the three high level LDL strategies and detailed a few modern works in LDL in the process. Collectively, these approaches are very effective when there is some level of uncertainty in the label space or when the label distribution is explicitly known.
@@ -394,6 +416,10 @@ Label Distribution Learning (LDL) strategies are machine learning techniques tha
 
       <p><a href="https://arxiv.org/pdf/2204.03044.pdf">
 Choshen, L., Venezian, E., Slonim, N., & Katz, Y. (2022). Fusing finetuned models for better pretraining. ArXiv, abs/2204.03044.
+      </a></p>
+
+      <p><a href="https://arxiv.org/pdf/2302.04863.pdf">
+          Gueta, A., Venezian, E., Raffel, C., Slonim, N., Katz, Y., & Choshen, L. (2023). Knowledge is a Region in Weight Space for Fine-tuned Language Models. ArXiv, abs/2302.04863.
       </a></p>
 
       <p><a href="https://arxiv.org/pdf/1803.05407.pdf">
